@@ -12,7 +12,7 @@ const SIDEBAR_NAV_ITEMS = [
   { id: "overview", label: "Overview", icon: IconSidebarHome, href: "/dashboards", disabled: false },
   { id: "research-assistant", label: "Research Assistant", icon: IconSidebarBulb, href: "#", disabled: true },
   { id: "research-reports", label: "Research Reports", icon: IconSidebarFile, href: "#", disabled: true },
-  { id: "api-playground", label: "API Playground", icon: IconSidebarCode, href: "#", disabled: true },
+  { id: "api-playground", label: "API Playground", icon: IconSidebarCode, href: "/playground", disabled: false },
   { id: "invoices", label: "Invoices", icon: IconSidebarClipboard, href: "#", disabled: true },
   { id: "documentation", label: "Documentation", icon: IconSidebarBook, href: "#", disabled: true },
 ]
