@@ -2,11 +2,11 @@
 
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { ActionToast } from "../dashboards/components/ActionToast"
 import { useActionToast } from "../dashboards/hooks/useActionToast"
 
-const ProtectedPage = () => {
+const ProtectedContent = () => {
   const searchParams = useSearchParams()
   const apiKey = `${searchParams.get("apiKey") ?? ""}`.trim()
 
@@ -62,9 +62,32 @@ const ProtectedPage = () => {
   }, [apiKey, showActionToast])
 
   return (
-    <div className="min-h-screen bg-[#fdfaf6] px-5 py-10 text-stone-900 sm:px-8">
+    <>
       <ActionToast actionToast={actionToast} onDismiss={dismissActionToast} />
+      <section className="rounded-[28px] border border-stone-200/80 bg-[#fefdfb] p-8 sm:p-10">
+        {isValidating ? (
+          <p className="text-sm text-stone-600">Validating API key...</p>
+        ) : hasAccess ? (
+          <div className="space-y-2">
+            <h2 className="text-xl font-semibold text-stone-900">Access granted</h2>
+            <p className="text-sm text-stone-600">You are authorized to view protected content.</p>
+          </div>
+        ) : (
+          <div className="space-y-2">
+            <h2 className="text-xl font-semibold text-rose-700">Access denied</h2>
+            <p className="text-sm text-stone-600">
+              {validationError || "The provided key is not valid for protected access."}
+            </p>
+          </div>
+        )}
+      </section>
+    </>
+  )
+}
 
+const ProtectedPage = () => {
+  return (
+    <div className="min-h-screen bg-[#fdfaf6] px-5 py-10 text-stone-900 sm:px-8">
       <div className="mx-auto w-full max-w-[720px]">
         <header className="mb-8 flex items-center justify-between gap-4">
           <div>
@@ -79,23 +102,15 @@ const ProtectedPage = () => {
           </Link>
         </header>
 
-        <section className="rounded-[28px] border border-stone-200/80 bg-[#fefdfb] p-8 sm:p-10">
-          {isValidating ? (
-            <p className="text-sm text-stone-600">Validating API key...</p>
-          ) : hasAccess ? (
-            <div className="space-y-2">
-              <h2 className="text-xl font-semibold text-stone-900">Access granted</h2>
-              <p className="text-sm text-stone-600">You are authorized to view protected content.</p>
-            </div>
-          ) : (
-            <div className="space-y-2">
-              <h2 className="text-xl font-semibold text-rose-700">Access denied</h2>
-              <p className="text-sm text-stone-600">
-                {validationError || "The provided key is not valid for protected access."}
-              </p>
-            </div>
-          )}
-        </section>
+        <Suspense
+          fallback={
+            <section className="rounded-[28px] border border-stone-200/80 bg-[#fefdfb] p-8 sm:p-10">
+              <p className="text-sm text-stone-600">Validating API key...</p>
+            </section>
+          }
+        >
+          <ProtectedContent />
+        </Suspense>
       </div>
     </div>
   )
