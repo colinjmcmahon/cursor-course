@@ -1,6 +1,13 @@
 import { createServerClient } from "@supabase/ssr"
 import { NextResponse } from "next/server"
 
+const isPublicPath = (pathname) => {
+  if (pathname === "/") return true
+  if (pathname.startsWith("/auth/")) return true
+  if (pathname.startsWith("/api/")) return true
+  return false
+}
+
 export const updateSession = async (request) => {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
@@ -36,8 +43,15 @@ export const updateSession = async (request) => {
     },
   })
 
-  // Refreshes session if needed
-  await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  const pathname = request.nextUrl.pathname
+
+  if (!user && !isPublicPath(pathname)) {
+    return NextResponse.redirect(new URL("/", request.url))
+  }
 
   return response
 }

@@ -9,6 +9,15 @@ const nextConfig = {
   turbopack: {
     root: appRoot,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "*.googleusercontent.com",
+        pathname: "/**",
+      },
+    ],
+  },
 }
 
 export default nextConfig
