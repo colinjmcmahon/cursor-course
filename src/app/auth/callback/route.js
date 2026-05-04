@@ -1,3 +1,4 @@
+import { ensureUserProfile } from "@/lib/ensureUserProfile"
 import { createServerClient } from "@supabase/ssr"
 import { NextResponse } from "next/server"
 
@@ -45,6 +46,14 @@ export async function GET(request) {
 
   if (error) {
     return NextResponse.redirect(`${requestUrl.origin}/auth/auth-code-error`)
+  }
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (user) {
+    await ensureUserProfile(supabase, user)
   }
 
   return response
