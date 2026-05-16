@@ -144,7 +144,7 @@ const DashboardPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#fdfaf6] px-5 py-10 text-stone-900 sm:px-8">
+    <div className="min-h-screen overflow-x-hidden bg-[#fdfaf6] px-4 py-8 text-stone-900 sm:px-6 sm:py-10 lg:px-8">
       <ActionToast actionToast={actionToast} onDismiss={dismissActionToast} />
 
       <div className="mx-auto flex w-full max-w-[1180px] flex-col gap-8 lg:flex-row lg:items-start">

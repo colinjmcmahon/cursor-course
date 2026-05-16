@@ -32,7 +32,7 @@ export const PlanUsageCard = ({
             API Usage
             <button
               type="button"
-              className="inline-flex h-6 w-6 items-center justify-center rounded-full text-white/80 transition-colors hover:bg-white/20 hover:text-white"
+              className="inline-flex size-10 items-center justify-center rounded-full text-white/80 transition-colors hover:bg-white/20 hover:text-white"
               aria-label="About API usage"
             >
               <IconInfo />
@@ -58,20 +58,20 @@ export const PlanUsageCard = ({
               aria-label="Pay as you go"
               onClick={onTogglePayAsYouGo}
               onKeyDown={onPayAsYouGoKeyDown}
-              className={`relative h-7 w-12 shrink-0 rounded-full transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${
+              className={`relative h-8 w-14 shrink-0 rounded-full transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${
                 payAsYouGo ? "bg-white" : "bg-white/35"
               }`}
             >
               <span
-                className={`absolute top-0.5 left-0.5 h-6 w-6 rounded-full bg-[#7b3ff2] shadow transition-transform ${
-                  payAsYouGo ? "translate-x-5" : "translate-x-0"
+                className={`absolute top-0.5 left-0.5 size-7 rounded-full bg-[#7b3ff2] shadow transition-transform ${
+                  payAsYouGo ? "translate-x-6" : "translate-x-0"
                 }`}
               />
             </button>
             <span className="text-sm font-medium text-white">Pay as you go</span>
             <button
               type="button"
-              className="inline-flex h-6 w-6 items-center justify-center rounded-full text-white/80 transition-colors hover:bg-white/20 hover:text-white"
+              className="inline-flex size-10 items-center justify-center rounded-full text-white/80 transition-colors hover:bg-white/20 hover:text-white"
               aria-label="About pay as you go"
             >
               <IconInfo />

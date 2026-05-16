@@ -6,7 +6,7 @@ import { useState } from "react"
 import { createClient } from "@/utils/supabase/client"
 import { AuthPanel } from "@/components/AuthPanel"
 
-export const HeaderAuth = ({ user: initialUser }) => {
+export const HeaderAuth = ({ user: initialUser, compactOnMobile = false }) => {
   const router = useRouter()
   const [user, setUser] = useState(initialUser)
   const [isLoading, setIsLoading] = useState(false)
@@ -34,19 +34,23 @@ export const HeaderAuth = ({ user: initialUser }) => {
   const initial = (displayName.trim()[0] ?? "?").toUpperCase()
 
   return (
-    <div className="flex items-center gap-4">
-      <span className="text-sm font-medium text-primary">{displayName}</span>
+    <div className="flex max-w-[min(100%,12rem)] items-center gap-2 sm:max-w-none sm:gap-3">
+      <span
+        className={`truncate text-sm font-medium text-primary ${compactOnMobile ? "hidden sm:inline" : ""}`}
+      >
+        {displayName}
+      </span>
       {avatarUrl ? (
         <Image
           src={avatarUrl}
           alt=""
           width={36}
           height={36}
-          className="size-9 rounded-full object-cover ring-2 ring-border"
+          className="size-9 shrink-0 rounded-full object-cover ring-2 ring-border"
         />
       ) : (
         <div
-          className="flex size-9 items-center justify-center rounded-full bg-secondary text-sm font-medium text-foreground ring-2 ring-border"
+          className="flex size-9 shrink-0 items-center justify-center rounded-full bg-secondary text-sm font-medium text-foreground ring-2 ring-border"
           aria-hidden
         >
           {initial}
@@ -54,12 +58,12 @@ export const HeaderAuth = ({ user: initialUser }) => {
       )}
       <button
         type="button"
-        className="text-sm font-medium text-red-500 transition-colors hover:text-red-600 disabled:opacity-50"
+        className="min-h-11 shrink-0 rounded-lg px-2 text-sm font-medium text-red-500 transition-colors hover:bg-red-50 hover:text-red-600 disabled:opacity-50 sm:px-3"
         onClick={handleSignOut}
         disabled={isLoading}
         aria-label="Sign out"
       >
-        {isLoading ? "Signing out…" : "Sign Out"}
+        {isLoading ? "…" : "Sign Out"}
       </button>
     </div>
   )

@@ -88,7 +88,7 @@ export const AuthPanel = ({
         <div className="flex flex-col items-end gap-2">
           <button
             type="button"
-            className="flex h-9 items-center justify-center rounded-sm border-2 border-border bg-white px-4 text-sm font-semibold text-foreground shadow-[2px_2px_0_0_#0a0a0a] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none disabled:opacity-50"
+            className="flex min-h-11 items-center justify-center rounded-lg border border-border bg-white px-4 text-sm font-medium text-foreground transition-colors hover:bg-muted disabled:opacity-50"
             onClick={handleSignOut}
             disabled={isLoading}
             aria-label="Sign out"
@@ -151,7 +151,7 @@ export const AuthPanel = ({
     <div className={`flex w-full flex-col gap-2 ${compact ? "items-end" : ""}`}>
       <button
         type="button"
-        className={`flex h-10 items-center justify-center gap-2 rounded-lg bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50 ${
+        className={`flex min-h-11 items-center justify-center gap-2 rounded-lg bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50 ${
           compact ? "w-auto" : "w-full sm:w-auto"
         }`}
         onClick={handleGoogleSignIn}
