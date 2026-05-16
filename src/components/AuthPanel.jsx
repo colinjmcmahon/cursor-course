@@ -5,7 +5,13 @@ import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 
-export const AuthPanel = ({ initialUser }) => {
+export const AuthPanel = ({
+  initialUser,
+  compact = false,
+  loginLabel = "Sign in with Google",
+  showGoogleIcon = true,
+  showSignOutOnly = false,
+}) => {
   const router = useRouter()
   const [user, setUser] = useState(initialUser)
   const [isLoading, setIsLoading] = useState(false)
@@ -77,6 +83,27 @@ export const AuthPanel = ({ initialUser }) => {
       user.user_metadata?.avatar_url ?? user.user_metadata?.picture ?? null
     const initial = (label.trim()[0] ?? "?").toUpperCase()
 
+    if (showSignOutOnly) {
+      return (
+        <div className="flex flex-col items-end gap-2">
+          <button
+            type="button"
+            className="flex h-9 items-center justify-center rounded-sm border-2 border-border bg-white px-4 text-sm font-semibold text-foreground shadow-[2px_2px_0_0_#0a0a0a] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none disabled:opacity-50"
+            onClick={handleSignOut}
+            disabled={isLoading}
+            aria-label="Sign out"
+          >
+            {isLoading ? "Signing out…" : "Sign out"}
+          </button>
+          {errorMessage ? (
+            <p className="text-sm text-red-600 dark:text-red-400" role="alert">
+              {errorMessage}
+            </p>
+          ) : null}
+        </div>
+      )
+    }
+
     return (
       <div className="flex w-full flex-col gap-3">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -97,15 +124,13 @@ export const AuthPanel = ({ initialUser }) => {
                 {initial}
               </div>
             )}
-            <p className="min-w-0 text-sm text-zinc-600 dark:text-zinc-400">
-              <span className="font-medium text-zinc-900 dark:text-zinc-100">
-                {label}
-              </span>
+            <p className="min-w-0 text-sm text-muted-foreground">
+              <span className="font-medium text-foreground">{label}</span>
             </p>
           </div>
           <button
             type="button"
-            className="flex h-12 w-full items-center justify-center rounded-full border border-zinc-300 bg-white px-5 text-sm font-medium text-zinc-900 transition-colors hover:bg-zinc-100 disabled:opacity-50 dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100 dark:hover:bg-zinc-800 sm:w-auto"
+            className="flex h-12 w-full items-center justify-center rounded-full border border-border bg-card px-5 text-sm font-medium text-foreground transition-colors hover:bg-secondary disabled:opacity-50 sm:w-auto"
             onClick={handleSignOut}
             disabled={isLoading}
             aria-label="Sign out"
@@ -123,16 +148,18 @@ export const AuthPanel = ({ initialUser }) => {
   }
 
   return (
-    <div className="flex w-full flex-col gap-2">
+    <div className={`flex w-full flex-col gap-2 ${compact ? "items-end" : ""}`}>
       <button
         type="button"
-        className="flex h-12 w-full items-center justify-center gap-2 rounded-full border border-zinc-200 bg-white px-5 text-sm font-medium text-zinc-900 shadow-sm transition-colors hover:bg-zinc-50 disabled:opacity-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:hover:bg-zinc-800 sm:w-auto"
+        className={`flex h-10 items-center justify-center gap-2 rounded-lg bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50 ${
+          compact ? "w-auto" : "w-full sm:w-auto"
+        }`}
         onClick={handleGoogleSignIn}
         disabled={isLoading}
-        aria-label="Sign in with Google"
+        aria-label={loginLabel}
       >
-        <GoogleMark className="h-5 w-5 shrink-0" aria-hidden />
-        {isLoading ? "Redirecting…" : "Sign in with Google"}
+        {showGoogleIcon ? <GoogleMark className="h-5 w-5 shrink-0" aria-hidden /> : null}
+        {isLoading ? "Redirecting…" : loginLabel}
       </button>
       {errorMessage ? (
         <p className="text-sm text-red-600 dark:text-red-400" role="alert">
