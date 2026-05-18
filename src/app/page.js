@@ -1,3 +1,4 @@
+import { ApiDemo } from "@/components/landing/api-demo"
 import { About } from "@/components/landing/about"
 import { CTA } from "@/components/landing/cta"
 import { Features } from "@/components/landing/features"
@@ -24,7 +25,9 @@ export default async function Home() {
       <main>
         <Hero user={user} />
         <Features />
+        <ApiDemo /> 
         <Pricing />
+       
         <About />
         <CTA user={user} />
       </main>

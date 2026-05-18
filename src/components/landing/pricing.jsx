@@ -18,6 +18,7 @@ const plans = [
     ],
     cta: "Get started",
     popular: false,
+    comingSoon: false
   },
   {
     name: "Pro",
@@ -34,7 +35,8 @@ const plans = [
       "Priority support",
     ],
     cta: "Start free trial",
-    popular: true,
+    popular: false,
+    comingSoon: true
   },
   {
     name: "Team",
@@ -52,6 +54,7 @@ const plans = [
     ],
     cta: "Contact sales",
     popular: false,
+    comingSoon: true,
   },
 ]
 
@@ -81,6 +84,11 @@ export const Pricing = () => {
                   Most popular
                 </Badge>
               ) : null}
+              {plan.comingSoon ? (
+                <Badge variant="secondary" className="absolute top-3 right-3 text-xs">
+                  Coming Soon
+                </Badge>
+              ) : null}
               <CardHeader>
                 <CardTitle className="text-xl">{plan.name}</CardTitle>
                 <div className="mt-2 flex items-baseline gap-1">
@@ -100,9 +108,19 @@ export const Pricing = () => {
                 </ul>
               </CardContent>
               <CardFooter>
-                <Button asChild className="w-full rounded-lg" variant={plan.popular ? "default" : "outline"}>
-                  <Link href="/dashboards">{plan.cta}</Link>
-                </Button>
+                {plan.comingSoon ? (
+                  <Button
+                    className="w-full rounded-lg"
+                    variant={plan.popular ? "default" : "outline"}
+                    disabled
+                  >
+                    Coming Soon
+                  </Button>
+                ) : (
+                  <Button asChild className="w-full rounded-lg" variant={plan.popular ? "default" : "outline"}>
+                    <Link href="/dashboards">{plan.cta}</Link>
+                  </Button>
+                )}
               </CardFooter>
             </Card>
           ))}
